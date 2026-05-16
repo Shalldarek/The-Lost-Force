@@ -2,22 +2,23 @@
 #include "Character.h"
 #include <string>
 
-class Sith : public Character {
+class Jedi : public Character {
     private:
         int ID;
         std::string characterName;
         std::string language;
         std::string dialect;
-        int studs; 
-        int angerLevel; 
+        int studs;
+        std::string lightsaberColor; 
 
     public:
-        Sith(int ID, std::string characterName, std::string language, std::string dialect, int angerLevel = 0);
+        Jedi(int ID, std::string characterName, std::string language, std::string dialect, std::string lightsaberColor);
 
         std::string getCharacterName() const override;
         std::string getLanguage() const override;
         std::string getDialect() const override;
         int getStuds() const override;
         void addStuds(int amount) override;
-        int getAngerLevel() const;
+
+        std::string getLightsaberColor() const;
 };
