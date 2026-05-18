@@ -8,6 +8,7 @@ class Sith : public Character {
         std::string characterName;
         std::string language;
         std::string dialect;
+        int virtualStuds;
         int studs; 
         int angerLevel; 
 
@@ -19,5 +20,6 @@ class Sith : public Character {
         std::string getDialect() const override;
         int getStuds() const override;
         void addStuds(int amount) override;
+        void addVirtualStuds(int amount) override;
         int getAngerLevel() const;
 };

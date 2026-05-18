@@ -29,6 +29,14 @@ void Jedi::addStuds(int amount) {
     }
 }
 
+void Jedi::addVirtualStuds(int amount) {
+    if (amount <= 0) {
+        std::cout << "Amount must be higher than 0" << std::endl;
+    } else {
+        virtualStuds += amount;
+    }
+}
+
 std::string Jedi::getLightsaberColor() const{
     return lightsaberColor;
 }

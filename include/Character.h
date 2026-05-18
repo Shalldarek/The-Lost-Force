@@ -9,6 +9,7 @@ class Character {
         virtual std::string getDialect() const = 0;
         virtual int getStuds() const = 0;
         virtual void addStuds(int amount) = 0;
+        virtual void addVirtualStuds(int amount) = 0;
     public:
         virtual ~Character() = default;
 };

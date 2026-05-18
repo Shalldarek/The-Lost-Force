@@ -9,6 +9,7 @@ class Jedi : public Character {
         std::string language;
         std::string dialect;
         int studs;
+        int virtualStuds;
         std::string lightsaberColor; 
 
     public:
@@ -19,6 +20,7 @@ class Jedi : public Character {
         std::string getDialect() const override;
         int getStuds() const override;
         void addStuds(int amount) override;
+        void addVirtualStuds(int amount) override;
 
         std::string getLightsaberColor() const;
 };

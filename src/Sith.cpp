@@ -29,6 +29,14 @@ void Sith::addStuds(int amount) {
     }
 }
 
+void Sith::addVirtualStuds(int amount) {
+    if (amount <= 0) {
+        std::cout << "Amount must be higher than 0" << std::endl;
+    } else {
+        virtualStuds += amount;
+    }
+}
+
 int Sith::getAngerLevel() const{
     return angerLevel;
 }
