@@ -25,6 +25,7 @@ int main() {
         controller->printAllCharacters(con);
         //controller->removeCharacter(con, 4);
         
+        delete controller;
         delete con;
 
     } catch (sql::SQLException &e) {

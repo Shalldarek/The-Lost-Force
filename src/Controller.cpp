@@ -58,3 +58,30 @@ void Controller::removeCharacter(sql::Connection* con, int id) {
         std::cout << "# ERR DELETE: " << e.what() << std::endl;
     }
 }
+
+void Controller::updateCharacter(sql::Connection* con, int id, std::string name, std::string side, std::string language, std::string dialect) {
+    try {
+        sql::PreparedStatement* pstmt = con->prepareStatement(
+            "UPDATE characters SET character_name = ?, force_side = ?, language = ?, dialect = ? WHERE id = ?"
+        );
+
+        pstmt->setString(1, name);
+        pstmt->setString(2, side);
+        pstmt->setString(3, language);
+        pstmt->setString(4, dialect);
+        pstmt->setInt(5, id);
+
+        int rows_affected = pstmt->executeUpdate();
+        
+        if (rows_affected > 0) {
+            std::cout << "Data postavy " << name << " byla uspesne upravena!" << std::endl;
+        } else {
+            std::cout << "Chyba: Postava s ID " << id << " v databazi neexistuje!" << std::endl;
+        }
+
+        delete pstmt;
+
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR UPDATE: " << e.what() << std::endl;
+    }
+}
