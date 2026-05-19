@@ -22,8 +22,10 @@ int main() {
         
         con->setSchema("language_galaxy");
 
-        controller->printAllCharacters(con);
+        //controller->printAllCharacters(con);
         //controller->removeCharacter(con, 4);
+
+        controller->printCharacter(con, 2);
         
         delete controller;
         delete con;

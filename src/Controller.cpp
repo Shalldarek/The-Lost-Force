@@ -23,6 +23,27 @@ void Controller::printAllCharacters(sql::Connection* con) {
     }
 }
 
+void Controller::printCharacter(sql::Connection* con, int studs) {
+    try {
+        sql::PreparedStatement *pstmt = con->prepareStatement("SELECT id, character_name, force_side, language, dialect FROM characters WHERE studs = ?");
+        pstmt->setInt(1, studs);
+        sql::ResultSet *res = pstmt->executeQuery();
+
+        while (res->next()) {
+            std::cout << "ID: " << res->getInt("id") 
+                 << " | Name: " << res->getString("character_name") 
+                 << " | Side: " << res->getString("force_side")
+                 << " | Language: " << res->getString("language") 
+                 << " | Dialect: " << res->getString("dialect") << std::endl;
+        }
+
+        delete res;
+        delete pstmt;
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR SELECT: " << e.what() << std::endl;
+    }
+}
+
 void Controller::addCharacter(sql::Connection* con, int id, std::string name, std::string side, std::string language) {
     try {
         sql::PreparedStatement *pstmt = con->prepareStatement(

@@ -8,6 +8,7 @@
 class Controller {
     public:
         void printAllCharacters(sql::Connection* con);
+        void printCharacter(sql::Connection* con, int studs);
         void addCharacter(sql::Connection* con, int id, std::string name, std::string side, std::string language);
         void removeCharacter(sql::Connection* con, int id);
         void updateCharacter(sql::Connection* con, int id, std::string name, std::string side, std::string language, std::string dialect);
