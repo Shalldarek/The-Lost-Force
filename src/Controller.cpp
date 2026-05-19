@@ -95,9 +95,9 @@ void Controller::updateCharacter(sql::Connection* con, int id, std::string name,
         int rows_affected = pstmt->executeUpdate();
         
         if (rows_affected > 0) {
-            std::cout << "Data postavy " << name << " byla uspesne upravena!" << std::endl;
+            std::cout << "The data about the character " << name << " were succesfully updated!" << std::endl;
         } else {
-            std::cout << "Chyba: Postava s ID " << id << " v databazi neexistuje!" << std::endl;
+            std::cout << "ERROR: The character with the ID " << id << " doesn't exist in the database!" << std::endl;
         }
 
         delete pstmt;
@@ -105,4 +105,17 @@ void Controller::updateCharacter(sql::Connection* con, int id, std::string name,
     } catch (sql::SQLException &e) {
         std::cout << "# ERR UPDATE: " << e.what() << std::endl;
     }
+}
+
+void Controller::remoteAllCharacters(sql::Connection* con) {
+    try{
+        sql::PreparedStatement *pstmt = con->prepareStatement("TRUNCATE TABLE characters;");
+
+        std::cout << "All records from this table were deleted" << std::endl;
+
+        delete pstmt;
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR TRUNCATE: " << e.what() << std::endl;
+    }
+    
 }
