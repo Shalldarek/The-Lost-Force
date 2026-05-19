@@ -7,9 +7,11 @@
 #include <cppconn/prepared_statement.h>
 #include "../include/Sith.h"
 #include "../include/Jedi.h"
+#include "Controller.h"
 using namespace std;
 
 int main() {
+    Controller* controller = new Controller();
     try {
         sql::mysql::MySQL_Driver *driver;
         sql::Connection *con;
@@ -20,12 +22,10 @@ int main() {
         
         con->setSchema("language_galaxy");
 
-        /*sql::PreparedStatement *pstmt;
-
-        pstmt->executeUpdate();*/
+        controller->printAllCharacters(con);
         
         delete con;
-        //delete pstmt;
+
     } catch (sql::SQLException &e) {
         cout << "# ERR: SQL error!" << endl;
         cout << "# ERR: " << e.what() << endl;

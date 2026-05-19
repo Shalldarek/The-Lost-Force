@@ -1,6 +1,7 @@
 #pragma once
 #include "Character.h"
 #include <string>
+#include <vector>
 
 class Sith : public Character {
     private:
