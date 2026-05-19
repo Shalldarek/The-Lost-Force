@@ -23,6 +23,7 @@ int main() {
         con->setSchema("language_galaxy");
 
         controller->printAllCharacters(con);
+        //controller->removeCharacter(con, 4);
         
         delete con;
 

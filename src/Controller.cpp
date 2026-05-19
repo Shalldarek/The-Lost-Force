@@ -42,3 +42,19 @@ void Controller::addCharacter(sql::Connection* con, int id, std::string name, st
         std::cout << "# ERR INSERT: " << e.what() << std::endl;
     }
 }
+
+void Controller::removeCharacter(sql::Connection* con, int id) {
+    try {
+        sql::PreparedStatement *pstmt = con->prepareStatement("DELETE FROM characters WHERE id = ?");
+
+        pstmt->setInt(1, id);
+        pstmt->executeUpdate();
+        
+        std::cout << "The row was deleted" << std::endl;
+
+        delete pstmt;
+
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR DELETE: " << e.what() << std::endl;
+    }
+}
