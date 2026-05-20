@@ -107,7 +107,7 @@ void Controller::updateCharacter(sql::Connection* con, int id, std::string name,
     }
 }
 
-void Controller::remoteAllCharacters(sql::Connection* con) {
+void Controller::removeAllCharacters(sql::Connection* con) {
     try{
         sql::PreparedStatement *pstmt = con->prepareStatement("TRUNCATE TABLE characters;");
 
