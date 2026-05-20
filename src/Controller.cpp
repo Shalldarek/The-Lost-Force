@@ -119,3 +119,55 @@ void Controller::remoteAllCharacters(sql::Connection* con) {
     }
     
 }
+
+void Controller::updateCharacterRank(sql::Connection* con, int id) {
+    try {
+        sql::PreparedStatement *pstmtSelect = con->prepareStatement("SELECT virtual_studs, force_side FROM characters WHERE id = ?");
+        pstmtSelect->setInt(1, id);
+        sql::ResultSet *res = pstmtSelect->executeQuery();
+
+        if (res->next()) {
+            int studs = res->getInt("virtual_studs");
+            std::string side = res->getString("force_side");
+            std::string newRank = "Unknown";
+
+            if (side == "Jedi") {
+                if (studs >= 500) newRank = "Grand Master";
+                else if (studs >= 300) newRank = "Jedi Master";
+                else if (studs >= 150) newRank = "Jedi Knight";
+                else if (studs >= 50) newRank = "Padawan";
+                else newRank = "Youngling";
+            } 
+
+            else if (side == "Sith") {
+                if (studs >= 500) newRank = "Dark Lord";
+                else if (studs >= 300) newRank = "Sith Lord";
+                else if (studs >= 150) newRank = "Sith Warrior";
+                else if (studs >= 50) newRank = "Apprentice";
+                else newRank = "Acolyte";
+            }
+
+            else if (side == "Bounty Hunter") {
+                if (studs >= 500) newRank = "Mandalorian Legend";
+                else if (studs >= 300) newRank = "Elite Hunter";
+                else if (studs >= 150) newRank = "Assassin";
+                else if (studs >= 50) newRank = "Mercenary";
+                else newRank = "Rookie";
+            }
+
+            sql::PreparedStatement *pstmtUpdate = con->prepareStatement("UPDATE characters SET char_rank = ? WHERE id = ?");
+            pstmtUpdate->setString(1, newRank);
+            pstmtUpdate->setInt(2, id);
+            pstmtUpdate->executeUpdate();
+
+            std::cout << "Hodnost aktualizována na: " << newRank << std::endl;
+            delete pstmtUpdate;
+        }
+
+        delete res;
+        delete pstmtSelect;
+
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR UPDATE RANK: " << e.what() << std::endl;
+    }
+}
