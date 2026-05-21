@@ -27,8 +27,8 @@ int main(int argc, char* argv[]) {
                 controller->printAllCharacters(con);
             } else if (action == "print_one") {
                 if (argc > 2) { 
-                    int studs = std::stoi(argv[2]); 
-                    controller->printCharacter(con, studs);
+                    int id = std::stoi(argv[2]); 
+                    controller->printCharacter(con, id);
                 }
             } else if (action == "remove_one") {
                 if (argc > 2) { 
@@ -37,6 +37,34 @@ int main(int argc, char* argv[]) {
                 }
             } else if (action == "remove_all") { 
                 controller->removeAllCharacters(con);
+            } else if (action == "update") {
+                if (argc >= 7) { 
+                    int id = std::stoi(argv[2]);
+                    std::string name = argv[3];
+                    std::string side = argv[4];
+                    std::string language = argv[5];
+                    std::string dialect = argv[6];
+                    controller->updateCharacter(con, id, name, side, language, dialect);
+                } else {
+                    std::cout << "ERROR: Wrong amount of arguments!" << std::endl;
+                }
+            } else if (action == "add") {
+                if (argc >= 6) { 
+                    int id = std::stoi(argv[2]);
+                    std::string name = argv[3];
+                    std::string side = argv[4];
+                    std::string language = argv[5];
+                    controller->addCharacter(con, id, name, side, language);
+                } else {
+                    std::cout << "ERROR: Wrong amount of arguments!" << std::endl;
+                }
+            } else if (action == "update_rank") {
+                if (argc >= 3) { 
+                    int id = std::stoi(argv[2]);
+                    controller->updateCharacterRank(con, id);
+                } else {
+                    std::cout << "ERROR: Wrong amount of arguments!" << std::endl;
+                }
             }
             
         } else {
