@@ -171,3 +171,47 @@ void Controller::updateCharacterRank(sql::Connection* con, int id) {
         std::cout << "# ERR UPDATE RANK: " << e.what() << std::endl;
     }
 }
+
+void Controller::setGoal(sql::Connection* con, int id, std::string goal) {
+    try {
+        sql::PreparedStatement* pstmt = con->prepareStatement(
+            "UPDATE characters SET current_goal = ? WHERE id = ?"
+        );
+
+        pstmt->setString(1, goal);
+        pstmt->setInt(2, id);
+
+        int rows_affected = pstmt->executeUpdate();
+        
+        if (rows_affected > 0) {
+            std::cout << "The data about the character were succesfully updated!" << std::endl;
+        } else {
+            std::cout << "ERROR: The character with the ID " << id << " doesn't exist in the database!" << std::endl;
+        }
+
+        delete pstmt;
+
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR UPDATE: " << e.what() << std::endl;
+    }
+}
+
+void Controller::completeGoal(sql::Connection* con, int id) {
+    try {
+        sql::PreparedStatement* pstmt = con->prepareStatement("UPDATE characters SET virtual_studs = virtual_studs + 5, current_goal = 'No goal set' WHERE id = ?");
+
+        pstmt->setInt(1, id);
+
+        int rows_affected = pstmt->executeUpdate();
+        
+        if (rows_affected > 0) {
+            std::cout << "The data about the character were succesfully updated!" << std::endl;
+        } else {
+            std::cout << "ERROR: The character with the ID " << id << " doesn't exist in the database!" << std::endl;
+        }
+        
+        delete pstmt;
+    } catch (sql::SQLException &e) {
+        std::cout << "# ERR UPDATE: " << e.what() << std::endl;
+    }
+}

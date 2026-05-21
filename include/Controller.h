@@ -14,4 +14,6 @@ class Controller {
         void updateCharacter(sql::Connection* con, int id, std::string name, std::string side, std::string language, std::string dialect);
         void removeAllCharacters(sql::Connection* con);
         void updateCharacterRank(sql::Connection* con, int id);
+        void setGoal(sql::Connection* con, int id, std::string goal);
+        void completeGoal(sql::Connection* con, int id);
 };
