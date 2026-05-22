@@ -4,7 +4,7 @@
 
 void Controller::printAllCharacters(sql::Connection* con) {
     try {
-        sql::PreparedStatement *pstmt = con->prepareStatement("SELECT id, character_name, force_side, language, dialect FROM characters");
+        sql::PreparedStatement *pstmt = con->prepareStatement("SELECT id, character_name, force_side, language, dialect, current_goal FROM characters");
         sql::ResultSet *res = pstmt->executeQuery();
 
         std::cout << "--- CHARACTER LIST ---" << std::endl;
@@ -13,7 +13,8 @@ void Controller::printAllCharacters(sql::Connection* con) {
                  << " | Name: " << res->getString("character_name") 
                  << " | Side: " << res->getString("force_side")
                  << " | Language: " << res->getString("language") 
-                 << " | Dialect: " << res->getString("dialect") << std::endl;
+                 << " | Dialect: " << res->getString("dialect") 
+                 << " | Goal: " << res->getString("current_goal") << std::endl;
         }
 
         delete res;
