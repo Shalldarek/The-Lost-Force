@@ -4,9 +4,6 @@
 
 The core idea is to track my learning progress. As I advance in a language, I add "studs" to its corresponding Lego figure. By looking at the number of studs, I can easily visualize my progress and proficiency!
 
-## 🌐 Front-End Project
-This repository focuses on the core C++ logic and data management. Be sure to check out my profile for the accompanying **front-end project**, which fetches data from this database and visually displays the Lego figures, their languages, and my accumulated studs.
-
 ## 🛠️ Technology Stack
 - **Language:** C++ (Object-Oriented Programming featuring `Character`, `Jedi`, and `Sith` classes)
 - **Build System:** Makefile
