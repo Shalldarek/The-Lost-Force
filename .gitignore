@@ -1,5 +1,6 @@
-worker/language_galaxy.db
+.venv/
+venv/
+env/
+__pycache__/
+*.db
 worker/language_galaxy
-api/venv/
-api/app/__pycache__
-.venv
