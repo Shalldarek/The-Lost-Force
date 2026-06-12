@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1 class="mb-4">Heroes</h1>
+        
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Rank</th>
+                    <th scope="col">Language</th>
+                    <th scope="col">Dialect</th>
+                    <th scope="col">Level</th>
+                    <th scope="col">Studs</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for heroe in heroes %}
+                <tr>
+                    <td>{{ heroe.name }}</td>
+                    <td>{{ heroe.rank }}</td>
+                    <td>{{ heroe.language }}</td>
+                    <td>{{ heroe.dialect }}</td>
+                    <td>{{ heroe.studs_count }}</td>
+                    <td>{{ heroe.virtual_studs_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

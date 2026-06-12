@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.templating import Jinja2Templates
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from api.app.database import get_db
@@ -7,15 +8,23 @@ router = APIRouter(
     prefix="/heroes"
 )
 
+templates = Jinja2Templates(directory="templates")
+
 @router.get("/")
-def get_all_heroes(db: Session = Depends(get_db)):
-    result = db.execute(
+def get_all_heroes(request: Request, db: Session = Depends(get_db)):
+    heroes = db.execute(
         text("SELECT * FROM heroes;")
     ).mappings().all()
 
-    return {
-        "heroes": [dict(row) for row in result]
-    }
+    return templates.TemplateResponse(
+        request=request,
+        name="heroes.html",
+        context={"heroes": heroes}
+    )
+
+    #return {
+    #    "heroes": [dict(row) for row in result]
+    #}
 
 @router.get("/{id}")
 def get_one_hero(id: int, db: Session = Depends(get_db)):
