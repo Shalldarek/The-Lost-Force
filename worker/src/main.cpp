@@ -1,5 +1,6 @@
 #include <iostream>
 #include "../include/DatabaseManager.h"
+#include <limits>
 
 int main() {
     DatabaseManager dm("language_galaxy.db");
@@ -8,6 +9,70 @@ int main() {
         std::cout << "The database was succesfully created!" << std::endl;
     } else {
         std::cerr << "Something went wrong while creating the database" << std::endl;
+    }
+
+    bool run = true;
+
+    while (run) {
+        std::cout << "\n=== LANGUAGE GALAXY ===\n";
+        std::cout << "1. Add a new heroe\n";
+        std::cout << "2. Display heroes\n";
+        std::cout << "3. End App\n";
+        std::cout << "Choose an option: ";
+
+        int option;
+
+        if (!(std::cin >> option)) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+            std::cout << "[ERROR]: Enter a valid option!\n";
+            continue;
+        }
+
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        switch (option) {
+
+            case 1: {
+                std::string name;
+                std::string rank;
+                std::string language;
+                std::string dialect;
+                int studs_count;
+                int virtual_studs_count;
+
+                std::cout << "Enter character's name: ";
+                std::getline(std::cin, name);
+
+                std::cout << "Enter character's rank: ";
+                std::getline(std::cin, rank);
+
+                std::cout << "Enter represented language: ";
+                std::getline(std::cin, language);
+
+                std::cout << "Enter represented dialects: ";
+                std::getline(std::cin, dialect);
+
+                std::cout << "Enter studs count (1 stud = A1, 4 studs = B2...): ";
+                std::cin >> studs_count;
+
+                std::cout << "Enter virtual studs count: ";
+                std::cin >> virtual_studs_count;
+
+                dm.addRecord(name, rank, language, dialect, studs_count, virtual_studs_count);
+
+                break;
+            }
+
+            case 2:
+                dm.displayRecords();
+                break;
+            case 3:
+                run = false;
+                std::cout << "May the force be with you!" << std::endl;
+                break;
+        }
     }
 
     return 0;

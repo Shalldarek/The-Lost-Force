@@ -12,4 +12,6 @@ class DatabaseManager {
         ~DatabaseManager();
 
         bool createTable();
+        bool addRecord(std::string name, std::string rank, std::string language, std::string dialect, int studs_count, int virtual_studs_count);
+        void displayRecords();
 };
