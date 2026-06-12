@@ -22,14 +22,24 @@ def get_all_heroes(request: Request, db: Session = Depends(get_db)):
         context={"heroes": heroes}
     )
 
-    #return {
-    #    "heroes": [dict(row) for row in result]
-    #}
-
 @router.get("/{id}")
 def get_one_hero(id: int, db: Session = Depends(get_db)):
     result = db.execute(
         text("SELECT * FROM heroes WHERE id = :id;"),
+        {"id": id}
+    ).mappings().first()
+
+    if not result:
+        raise HTTPException(status_code=404, detail="Hero not found")
+
+    return {
+        "hero": dict(result)
+    }
+
+@router.delete("/{id}")
+def delete_one_hero(id: int, db: Session = Depends(get_db)):
+    result = db.execute(
+        text("DELETE FROM heroes WHERE id == :id;"),
         {"id": id}
     ).mappings().first()
 

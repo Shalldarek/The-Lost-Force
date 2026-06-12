@@ -8,3 +8,7 @@ app = FastAPI(
 )
 
 app.include_router(heroes.router)
+
+@app.get("/")
+def main_page():
+    return "Welcome to The Lost Force"
