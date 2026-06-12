@@ -15,9 +15,10 @@ int main() {
 
     while (run) {
         std::cout << "\n=== LANGUAGE GALAXY ===\n";
-        std::cout << "1. Add a new heroe\n";
+        std::cout << "1. Add a new hero\n";
         std::cout << "2. Display heroes\n";
-        std::cout << "3. End App\n";
+        std::cout << "3. Delete hero\n";
+        std::cout << "4. End App\n";
         std::cout << "Choose an option: ";
 
         int option;
@@ -69,6 +70,12 @@ int main() {
                 dm.displayRecords();
                 break;
             case 3:
+                int id;
+                std::cout << "Enter character's ID who you wanna delete: ";
+                std::cin >> id; 
+                dm.removeRecord(id);
+                break;
+            case 4:
                 run = false;
                 std::cout << "May the force be with you!" << std::endl;
                 break;

@@ -50,4 +50,26 @@ def delete_one_hero(id: int, db: Session = Depends(get_db)):
         "hero": dict(result)
     }
 
+@router.put("/{id}/{studs}")
+def add_virtual_studs(id: int, studs: int, db: Session = Depends(get_db)):
+    result = db.execute(
+        text("UPDATE heroes SET virtual_studs_count = virtual_studs_count + :studs WHERE id = :id"),
+        {"id": id, "studs": studs}
+    )
+
+    if result.rowcount == 0:
+        raise HTTPException(status_code=404, detail="Hero not found")
+
+    db.commit()
+
+    updated_hero = db.execute(
+        text("SELECT * FROM heroes WHERE id = :id"),
+        {"id": id}
+    ).first()
+
+    if updated_hero:
+        return {
+            "hero": dict(updated_hero._mapping)
+        }
+
 

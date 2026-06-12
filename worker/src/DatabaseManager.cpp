@@ -70,7 +70,7 @@ bool DatabaseManager::addRecord(std::string name, std::string rank, std::string 
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cerr << "Error while saving data: " << sqlite3_errmsg(db) << "\n";
     } else {
-        std::cout << "May the force be with you! Heroe saved!.\n";
+        std::cout << "May the force be with you! Hero saved!.\n";
     }
 
     sqlite3_finalize(stmt);
@@ -120,5 +120,25 @@ void DatabaseManager::displayRecords() {
     }
 
     std::cout << std::string(90, '-') << "\n";
+    sqlite3_finalize(stmt);
+}
+
+void DatabaseManager::removeRecord(const int id) {
+    std::string sql = "DELETE FROM heroes WHERE id = ?;";
+    sqlite3_stmt* stmt;
+
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cerr << "Error while processing the command: " << sqlite3_errmsg(db) << "\n";
+        return;
+    }
+
+    sqlite3_bind_int(stmt, 1, id);
+
+     if (sqlite3_step(stmt) != SQLITE_DONE) {
+        std::cerr << "Error while deleting data: " << sqlite3_errmsg(db) << "\n";
+    } else {
+        std::cout << "May the force be with you! Hero was deleted!.\n";
+    }
+
     sqlite3_finalize(stmt);
 }
