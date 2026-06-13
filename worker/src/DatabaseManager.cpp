@@ -29,6 +29,7 @@ DatabaseManager::~DatabaseManager() {
 bool DatabaseManager::createTable() {
     std::string sql = "CREATE TABLE IF NOT EXISTS heroes("
                   "id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                  "image_path TEXT NOT NULL, "
                   "name TEXT NOT NULL, "
                   "rank TEXT NOT NULL, "
                   "language TEXT NOT NULL,"
@@ -50,8 +51,8 @@ bool DatabaseManager::createTable() {
     return true;
 }
 
-bool DatabaseManager::addRecord(std::string name, std::string rank, std::string language, std::string dialect, int studs_count, int virtual_studs_count) {
-    std::string sql = "INSERT INTO heroes (name, rank, language, dialect, studs_count, virtual_studs_count) VALUES (?, ?, ?, ?, ?, ?);";
+bool DatabaseManager::addRecord(std::string image_path, std::string name, std::string rank, std::string language, std::string dialect, int studs_count, int virtual_studs_count) {
+    std::string sql = "INSERT INTO heroes (image_path, name, rank, language, dialect, studs_count, virtual_studs_count) VALUES (?, ?, ?, ?, ?, ?, ?);";
     
     sqlite3_stmt* stmt; 
 
@@ -60,12 +61,13 @@ bool DatabaseManager::addRecord(std::string name, std::string rank, std::string 
         return false;
     }
 
-    sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 2, rank.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 3, language.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_text(stmt, 4, dialect.c_str(), -1, SQLITE_TRANSIENT);
-    sqlite3_bind_int(stmt, 5, studs_count);
-    sqlite3_bind_int(stmt, 6, virtual_studs_count);
+    sqlite3_bind_text(stmt, 1, image_path.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 2, name.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 3, rank.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 4, language.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_text(stmt, 5, dialect.c_str(), -1, SQLITE_TRANSIENT);
+    sqlite3_bind_int(stmt, 6, studs_count);
+    sqlite3_bind_int(stmt, 7, virtual_studs_count);
 
     if (sqlite3_step(stmt) != SQLITE_DONE) {
         std::cerr << "Error while saving data: " << sqlite3_errmsg(db) << "\n";
@@ -90,6 +92,7 @@ void DatabaseManager::displayRecords() {
 
     std::cout << std::left 
         << std::setw(5)  << "ID"
+        << std::setw(20)  << "Image Path"
         << std::setw(20) << "Name"
         << std::setw(15) << "Rank"
         << std::setw(15) << "Language"
@@ -101,6 +104,7 @@ void DatabaseManager::displayRecords() {
 
     while (sqlite3_step(stmt) == SQLITE_ROW) {
         int id = sqlite3_column_int(stmt, 0);
+        const char* image_path   = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
         const char* name   = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
         const char* rank   = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
         const char* language = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 3));
@@ -110,6 +114,7 @@ void DatabaseManager::displayRecords() {
 
         std::cout << std::left
             << std::setw(5)  << id
+            << std::setw(20) << (image_path ? image_path : "N/A")
             << std::setw(20) << (name ? name : "N/A")
             << std::setw(15) << (rank ? rank : "N/A")
             << std::setw(15) << (language ? language : "N/A")

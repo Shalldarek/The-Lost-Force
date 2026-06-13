@@ -37,12 +37,16 @@ int main() {
         switch (option) {
 
             case 1: {
+                std::string image;
                 std::string name;
                 std::string rank;
                 std::string language;
                 std::string dialect;
                 int studs_count;
                 int virtual_studs_count;
+
+                std::cout << "Enter character's image path: ";
+                std::getline(std::cin, image);
 
                 std::cout << "Enter character's name: ";
                 std::getline(std::cin, name);
@@ -62,7 +66,7 @@ int main() {
                 std::cout << "Enter virtual studs count: ";
                 std::cin >> virtual_studs_count;
 
-                dm.addRecord(name, rank, language, dialect, studs_count, virtual_studs_count);
+                dm.addRecord(image, name, rank, language, dialect, studs_count, virtual_studs_count);
 
                 break;
             }

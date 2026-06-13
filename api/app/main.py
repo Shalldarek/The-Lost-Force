@@ -1,4 +1,7 @@
+from pathlib import Path
+
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from api.app.routers import heroes
 
 app = FastAPI(
@@ -8,6 +11,9 @@ app = FastAPI(
 )
 
 app.include_router(heroes.router)
+BASE_DIR = Path(__file__).resolve().parent
+
+app.mount("/images", StaticFiles(directory=BASE_DIR / "images"), name="images")
 
 @app.get("/")
 def main_page():
