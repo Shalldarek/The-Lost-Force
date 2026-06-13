@@ -18,7 +18,8 @@ int main() {
         std::cout << "1. Add a new hero\n";
         std::cout << "2. Display heroes\n";
         std::cout << "3. Delete hero\n";
-        std::cout << "4. End App\n";
+        std::cout << "4. Add studs\n";
+        std::cout << "5. End app\n";
         std::cout << "Choose an option: ";
 
         int option;
@@ -76,6 +77,14 @@ int main() {
                 dm.removeRecord(id);
                 break;
             case 4:
+                int character_id, studs;
+                std::cout << "Enter character's ID: ";
+                std::cin >> character_id;
+                std::cout << "Enter the amount of studs: ";
+                std::cin >> studs;
+                dm.addStuds(character_id, studs);
+                break;
+            case 5:
                 run = false;
                 std::cout << "May the force be with you!" << std::endl;
                 break;

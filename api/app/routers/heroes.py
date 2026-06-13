@@ -39,7 +39,7 @@ def get_one_hero(id: int, db: Session = Depends(get_db)):
 @router.delete("/{id}")
 def delete_one_hero(id: int, db: Session = Depends(get_db)):
     result = db.execute(
-        text("DELETE FROM heroes WHERE id == :id;"),
+        text("DELETE FROM heroes WHERE id = :id;"),
         {"id": id}
     ).mappings().first()
 

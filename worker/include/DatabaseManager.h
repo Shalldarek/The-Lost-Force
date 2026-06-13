@@ -15,4 +15,5 @@ class DatabaseManager {
         bool addRecord(std::string name, std::string rank, std::string language, std::string dialect, int studs_count, int virtual_studs_count);
         void displayRecords();
         void removeRecord(int id);
+        void addStuds(const int id, const int studs);
 };

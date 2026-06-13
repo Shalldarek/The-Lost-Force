@@ -142,3 +142,29 @@ void DatabaseManager::removeRecord(const int id) {
 
     sqlite3_finalize(stmt);
 }
+
+
+void DatabaseManager::addStuds(const int id, const int studs) {
+    std::string sql = "UPDATE heroes SET virtual_studs_count = virtual_studs_count + ? WHERE id = ?;";
+    sqlite3_stmt* stmt; 
+
+    if (sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, nullptr) != SQLITE_OK) {
+        std::cerr << "Error while processing the command: " << sqlite3_errmsg(db) << "\n";
+        return;
+    }
+
+    sqlite3_bind_int(stmt, 1, studs);
+    sqlite3_bind_int(stmt, 2, id);
+
+    if (sqlite3_step(stmt) != SQLITE_DONE) {
+    std::cerr << "Error while adding studs: " << sqlite3_errmsg(db) << "\n";
+    } else {
+        if (sqlite3_changes(db) == 0) {
+            std::cout << "No hero found with this ID.\n";
+        } else {
+            std::cout << "Studs were added.\n";
+        }
+    }
+
+    sqlite3_finalize(stmt);
+}
