@@ -7,6 +7,7 @@ int main() {
 
     if(dm.createTable()) {
         std::cout << "The database was succesfully created!" << std::endl;
+        dm.createTriggers();
     } else {
         std::cerr << "Something went wrong while creating the database" << std::endl;
     }

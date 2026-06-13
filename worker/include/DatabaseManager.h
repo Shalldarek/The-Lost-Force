@@ -16,4 +16,5 @@ class DatabaseManager {
         void displayRecords();
         void removeRecord(int id);
         void addStuds(const int id, const int studs);
+        bool createTriggers();
 };

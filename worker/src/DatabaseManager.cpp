@@ -173,3 +173,38 @@ void DatabaseManager::addStuds(const int id, const int studs) {
 
     sqlite3_finalize(stmt);
 }
+
+bool DatabaseManager::createTriggers() {
+    std::string sql =
+        "CREATE TRIGGER IF NOT EXISTS update_rank_after_studs_change "
+        "AFTER UPDATE OF virtual_studs_count ON heroes "
+        "WHEN NEW.virtual_studs_count != OLD.virtual_studs_count "
+        "BEGIN "
+        "  UPDATE heroes SET rank = "
+        "    CASE "
+        "      WHEN OLD.rank LIKE 'Jedi%' AND NEW.virtual_studs_count >= 500 THEN 'Jedi Grand Master' "
+        "      WHEN OLD.rank LIKE 'Jedi%' AND NEW.virtual_studs_count >= 350 THEN 'Jedi Master' "
+        "      WHEN OLD.rank LIKE 'Jedi%' AND NEW.virtual_studs_count >= 200 THEN 'Jedi Guardian' "
+        "      WHEN OLD.rank LIKE 'Jedi%' AND NEW.virtual_studs_count >= 100 THEN 'Jedi Knight' "
+        "      WHEN OLD.rank LIKE 'Jedi%' AND NEW.virtual_studs_count >= 50  THEN 'Jedi Padawan' "
+        "      WHEN OLD.rank LIKE 'Jedi%' THEN 'Jedi Youngling' "
+        "      WHEN OLD.rank LIKE 'Sith%' AND NEW.virtual_studs_count >= 500 THEN 'Dark Lord of the Sith' "
+        "      WHEN OLD.rank LIKE 'Sith%' AND NEW.virtual_studs_count >= 350 THEN 'Sith Elite' "
+        "      WHEN OLD.rank LIKE 'Sith%' AND NEW.virtual_studs_count >= 200 THEN 'Sith Marauder' "
+        "      WHEN OLD.rank LIKE 'Sith%' AND NEW.virtual_studs_count >= 100 THEN 'Sith Lord' "
+        "      WHEN OLD.rank LIKE 'Sith%' AND NEW.virtual_studs_count >= 50  THEN 'Sith Warrior' "
+        "      WHEN OLD.rank LIKE 'Sith%' THEN 'Sith Apprentice' "
+        "      ELSE rank "
+        "    END "
+        "  WHERE id = NEW.id; "
+        "END;";
+
+    char* errMsg = nullptr;
+    int rc = sqlite3_exec(db, sql.c_str(), nullptr, nullptr, &errMsg);
+    if (rc != SQLITE_OK) {
+        std::cerr << "Trigger error: " << errMsg << std::endl;
+        sqlite3_free(errMsg);
+        return false;
+    }
+    return true;
+}
