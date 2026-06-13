@@ -38,10 +38,50 @@
                         {% endif %}
                     </td>
                     <td>{{ hero.virtual_studs_count }}</td>
+                    <td>
+                        <button 
+                            data-id="{{ hero.id }}" 
+                            class="studs-button" 
+                            onclick="addTwoStuds(this.dataset.id)">
+                            +2 Studs
+                        </button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </body>
+    <script>
+        async function addTwoStuds(id) {
+            id = Number(id);
+
+            try {
+                const response = await fetch(`/heroes/${id}/2`, {
+                    method: "PUT"
+                });
+
+                if (!response.ok) {
+                    const err = await response.json();
+                    alert("ERROR: " + (err.detail || "Couldn't add studs."));
+                    return;
+                }
+
+                const data = await response.json();
+                const newCount = data.hero.virtual_studs_count;
+
+                const cell = document.getElementById('vstuds-' + id);
+                if (cell) {
+                    cell.textContent = newCount;
+                } else {
+                    console.warn("virtual_studs_count wasn't found!" + id);
+                }
+                window.location.reload();
+
+            } catch (e) {
+                console.error("Error in addTwoStuds:", e);
+                alert("Something went wrong: " + e.message);
+            }
+        }
+    </script>
 </html>
